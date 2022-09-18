@@ -1,3 +1,9 @@
+#include <inttypes.h>
+
+#define JSON_WPRI_INTEGER L"%" PRId64
+#define JSON_WPRI_FLOATING L"%g"
+#define JSON_WPRI_STRING L"%ls"
+
 typedef enum json_type_ {
   JSON_TYPE_none_,
   JSON_TYPE_ERROR,

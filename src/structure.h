@@ -1,6 +1,6 @@
 /*
 structure.h - jsonparse
-Modified 2022-09-16
+Modified 2022-09-17
 */
 
 #ifndef JSON_STRUCTURE_H
@@ -10,7 +10,6 @@ Modified 2022-09-16
 #include "common.h"
 #include <stddef.h>
 #include <stdint.h>
-#include <inttypes.h>
 
 /*
 Helpers.
@@ -31,10 +30,6 @@ Helpers.
 /*
 JSON data types and interface.
 */
-
-#define JSON_WPRI_INTEGER L"%" PRId64
-#define JSON_WPRI_FLOATING L"%g"
-#define JSON_WPRI_STRING L"%ls"
 
 #include "structure_public.h"
 
