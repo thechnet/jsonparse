@@ -1,6 +1,6 @@
 /*
 parser.c - jsonparse
-Modified 2022-09-16
+Modified 2022-09-17
 */
 
 /* Header-specific includes. */
@@ -78,6 +78,10 @@ void json_parser_advance(json_parser_state *ps)
   /* Internal errors. */
   assert(ps != NULL);
   assert(ps->stream != NULL);
+  
+  #ifdef JSON_PARSER_PRINT_PARSED_CHARACTERS
+  wprintf(L"%c", ps->wc);
+  #endif
   
   /* Get next character. */
   ps->wc = fgetwc(ps->stream);
@@ -448,7 +452,6 @@ json_value json_parse_array(json_parser_state *ps)
       }
       value.as.array = array_new;
     }
-    
     /* Parse value. */
     item = json_parse_value(ps);
     if (ps->error != JSON_ERROR_none_) {
@@ -457,10 +460,8 @@ json_value json_parse_array(json_parser_state *ps)
     }
     value.as.array[0].as.integer = (json_integer)array_idx;
     value.as.array[array_idx++] = item;
-    
     /* Whitespace. */
     json_parse_whitespace(ps);
-    
     /* Stop if continuation is not announced. */
     if (ps->wc != L',')
       break;
@@ -520,7 +521,6 @@ json_value json_parse_object(json_parser_state *ps)
       }
       value.as.object.pairs = pairs_new;
     }
-    
     /* Parse pair. */
     pair = json_parse_pair(ps);
     if (ps->error != JSON_ERROR_none_) {
@@ -529,10 +529,8 @@ json_value json_parse_object(json_parser_state *ps)
     }
     value.as.object.pairs[object_idx++] = pair;
     value.as.object.pair_count = object_idx;
-    
     /* Whitespace. */
     json_parse_whitespace(ps);
-    
     /* Stop if continuation is not announced. */
     if (!json_parse_character(ps, L','))
       break;

@@ -1,6 +1,6 @@
 /*
 errors.c - jsonparse
-Modified 2022-09-16
+Modified 2022-09-17
 */
 
 /* Header-specific includes. */
@@ -16,7 +16,7 @@ wchar_t *json_error_type_desc[] = {
   L"Expected '{' at start of object.",
   L"Expected '}' at end of object.",
   L"Expected ':' after key.",
-  L"Expected '\"' at start of string or key.",
+  L"Expected '\"' as start of string or key.",
   L"Expected '\"' at end of string or key.",
   L"Illegal escape sequence in string.",
   L"Illegal value.",

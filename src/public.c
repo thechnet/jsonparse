@@ -1,6 +1,6 @@
 /*
 public.c - jsonparse
-Modified 2022-09-16
+Modified 2022-09-17
 */
 
 /* Implementation-specific includes. */
@@ -54,7 +54,7 @@ void json_print_error(json_value value)
 {
   if (value.type != JSON_TYPE_ERROR || !JSON_ERROR_TYPE_HAS_MEANING(value.as.integer))
     return;
-  wprintf(L"\33[0m\33[91mError: %ls\33[0m\n", json_error_type_desc[value.as.integer-1]);
+  wprintf(L"\33[0m\33[91mError (jsonparse): %ls\33[0m\n", json_error_type_desc[value.as.integer-1]);
 }
 
 #pragma clang diagnostic pop
