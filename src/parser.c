@@ -438,9 +438,12 @@ json_value json_parse_array(json_parser_state *ps)
     return value;
   }
   
+  /* Whitespace. */
+  json_parse_whitespace(ps);
+  
   /* Items. */
   json_value item;
-  while (true) {
+  while (ps->wc != L']') {
     /* Ensure array is big enough. */
     while (array_idx >= array_size) {
       array_size *= 2;
@@ -507,9 +510,12 @@ json_value json_parse_object(json_parser_state *ps)
     return value;
   }
   
+  /* Whitespace. */
+  json_parse_whitespace(ps);
+  
   /* Pairs. */
   json_pair pair;
-  while (true) {
+  while (ps->wc != L'}') {
     /* Ensure object is big enough. */
     while (object_idx >= object_size) {
       object_size *= 2;
