@@ -463,7 +463,7 @@ json_value json_parse_array(json_parser_state *ps)
     /* Whitespace. */
     json_parse_whitespace(ps);
     /* Stop if continuation is not announced. */
-    if (ps->wc != L',')
+    if (!json_parse_character(ps, L','))
       break;
   }
   
