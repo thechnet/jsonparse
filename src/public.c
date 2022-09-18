@@ -31,6 +31,10 @@ json_value json_parse_file(wchar_t *path)
   json_parser_state *ps = json_parser_create(path);
   if (ps == NULL) {
     value.as.integer = JSON_ERROR_MEMORY;
+    return value;
+  }
+  if (ps->error != JSON_ERROR_none_) {
+    value.as.integer = ps->error;
     json_parser_destroy(ps);
     return value;
   }

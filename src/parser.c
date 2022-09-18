@@ -64,10 +64,10 @@ void json_parser_destroy(json_parser_state *ps)
 {
   /* Internal errors. */
   assert(ps != NULL);
-  assert(ps->stream != NULL);
   
   /* Clean up file stream. */
-  fclose(ps->stream);
+  if (ps->stream != NULL)
+    fclose(ps->stream);
   
   /* Deallocate memory. */
   free(ps);
