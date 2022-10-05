@@ -1,6 +1,6 @@
 /*
 jsonparse.h - jsonparse
-Modified 2022-09-16
+Modified 2022-10-05
 */
 
 #ifndef JSONPARSE_H
@@ -10,7 +10,7 @@ Modified 2022-09-16
 #include <stdint.h>
 
 @FILE_STRUCTURE_PUBLIC_H@
-json_value json_parse_file(wchar_t *path);
+json_value json_parse_stream(FILE *stream);
 void json_print_error(json_value value);
 
 #endif /* JSONPARSE_H */

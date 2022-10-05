@@ -1,6 +1,6 @@
 /*
 public.c - jsonparse
-Modified 2022-09-17
+Modified 2022-10-05
 */
 
 /* Implementation-specific includes. */
@@ -17,7 +17,7 @@ Modified 2022-09-17
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wmissing-prototypes"
 
-json_value json_parse_file(wchar_t *path)
+json_value json_parse_stream(FILE *stream)
 {
   /* Prepare. */
   json_value value = {
@@ -26,9 +26,9 @@ json_value json_parse_file(wchar_t *path)
   };
   
   /* Parse. */
-  if (path == NULL)
+  if (stream == NULL)
     return value;
-  json_parser_state *ps = json_parser_create(path);
+  json_parser_state *ps = json_parser_create(stream);
   if (ps == NULL) {
     value.as.integer = JSON_ERROR_MEMORY;
     return value;

@@ -1,6 +1,6 @@
 /*
 parser.c - jsonparse
-Modified 2022-09-17
+Modified 2022-10-05
 */
 
 /* Header-specific includes. */
@@ -12,7 +12,6 @@ Modified 2022-09-17
 #include <wchar.h>
 
 /* Constants. */
-#define WFOPEN_RMODE L"r,ccs=UTF-8"
 #define SIZE_STRING 16
 #define SIZE_NUMBER 16
 #define SIZE_ARRAY 16
@@ -28,10 +27,10 @@ Modified 2022-09-17
 *** Interface.
 */
 
-json_parser_state *json_parser_create(wchar_t *path)
+json_parser_state *json_parser_create(FILE *stream)
 {
   /* Internal errors. */
-  assert(path != NULL);
+  assert(stream != NULL);
   
   /* Create parser state. */
   json_parser_state *ps = malloc(sizeof(*ps));
@@ -45,13 +44,6 @@ json_parser_state *json_parser_create(wchar_t *path)
     .error = JSON_ERROR_none_
   };
   
-  /* Open file stream. */
-  FILE *stream = _wfopen(path, WFOPEN_RMODE);
-  if (stream == NULL) {
-    ps->error = JSON_ERROR_FILE;
-    return ps;
-  }
-  
   /* Store and prepare file stream. */
   ps->stream = stream;
   json_parser_advance(ps);
@@ -64,10 +56,6 @@ void json_parser_destroy(json_parser_state *ps)
 {
   /* Internal errors. */
   assert(ps != NULL);
-  
-  /* Clean up file stream. */
-  if (ps->stream != NULL)
-    fclose(ps->stream);
   
   /* Deallocate memory. */
   free(ps);

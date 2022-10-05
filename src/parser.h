@@ -1,6 +1,6 @@
 /*
 parser.h - jsonparse
-Modified 2022-09-16
+Modified 2022-10-05
 */
 
 #ifndef JSON_PARSER_H
@@ -25,7 +25,7 @@ typedef struct json_parser_state_ {
 *** Interface.
 */
 
-json_parser_state *json_parser_create(wchar_t *path);
+json_parser_state *json_parser_create(FILE *stream);
 void json_parser_destroy(json_parser_state *ps);
 
 void json_parser_advance(json_parser_state *ps);
