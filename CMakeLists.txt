@@ -34,9 +34,14 @@ add_library(
 
 include_directories(../watchdog/build)
 
+if(CMAKE_C_COMPILER_ID STREQUAL "GNU")
+  target_compile_options(jsonparse PRIVATE -Wall -Wextra)
+elseif(CMAKE_C_COMPILER_ID MATCHES "Clang")
+  target_compile_options(jsonparse PRIVATE -Weverything -Werror=embedded-directive)
+endif()
 target_compile_options(
   jsonparse PRIVATE
-  -O3 -Weverything -Werror=embedded-directive -Wno-unused-parameter -Wno-disabled-macro-expansion -Wno-gnu-zero-variadic-macro-arguments -Wno-declaration-after-statement -Wno-used-but-marked-unused -Wno-padded -Wno-keyword-macro
+  -O3 -Wno-unused-parameter -Wno-disabled-macro-expansion -Wno-gnu-zero-variadic-macro-arguments -Wno-declaration-after-statement -Wno-used-but-marked-unused -Wno-padded -Wno-keyword-macro
 )
 
 foreach(option IN LISTS options)

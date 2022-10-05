@@ -14,8 +14,15 @@ Modified 2022-10-05
 *** Interface.
 */
 
+#ifdef __GNUC__
+#ifdef __clang__
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wmissing-prototypes"
+#else
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmissing-prototypes"
+#endif
+#endif
 
 json_value json_parse_stream(FILE *stream)
 {
@@ -61,4 +68,10 @@ void json_print_error(json_value value)
   wprintf(L"\33[0m\33[91mError (jsonparse): %ls\33[0m\n", json_error_type_desc[value.as.integer-1]);
 }
 
+#ifdef __GNUC__
+#ifdef __clang__
 #pragma clang diagnostic pop
+#else
+#pragma GCC diagnostic pop
+#endif
+#endif

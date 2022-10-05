@@ -86,14 +86,14 @@ void json_parse_whitespace(json_parser_state *ps)
     json_parser_advance(ps);
 }
 
-bool json_parse_character(json_parser_state *ps, wint_t wc)
+bool json_parse_character(json_parser_state *ps, wchar_t wc)
 {
   /* Internal errors. */
   assert(ps != NULL);
   assert(ps->stream != NULL);
   
   /* Advance if current character matches. */
-  if (ps->wc != wc)
+  if (ps->wc != (wint_t)wc)
     return false;
   json_parser_advance(ps);
   return true;
@@ -146,7 +146,7 @@ json_value json_parse_number(json_parser_state *ps)
       buffer = buffer_new;
     }
     /* Add character to buffer. */
-    buffer[buffer_idx++] = ps->wc;
+    buffer[buffer_idx++] = (wchar_t)ps->wc;
     json_parser_advance(ps);
   } while (CHARACTER_IS_DIGIT(ps->wc));
   
@@ -168,7 +168,7 @@ json_value json_parse_number(json_parser_state *ps)
   /* Try to parse floating point number. */
   
   /* Skip decimal point. */
-  buffer[buffer_idx++] = ps->wc; /* '.' */
+  buffer[buffer_idx++] = (wchar_t)ps->wc; /* '.' */
   json_parser_advance(ps);
   
   size_t idx_before_decimals = buffer_idx;
@@ -187,7 +187,7 @@ json_value json_parse_number(json_parser_state *ps)
       buffer = buffer_new;
     }
     /* Add character to buffer. */
-    buffer[buffer_idx++] = ps->wc;
+    buffer[buffer_idx++] = (wchar_t)ps->wc;
     json_parser_advance(ps);
   }
   
@@ -266,7 +266,7 @@ wchar_t *json_parse_string(json_parser_state *ps)
       }
     }
     /* Accept character. */
-    string[string_idx++] = ps->wc;
+    string[string_idx++] = (wchar_t)ps->wc;
     json_parser_advance(ps);
   }
   /* Terminate string. */

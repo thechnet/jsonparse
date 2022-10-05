@@ -1,6 +1,6 @@
 /*
 structure.c - jsonparse
-Modified 2022-09-16
+Modified 2022-10-05
 */
 
 /* Header-specific includes. */
@@ -16,8 +16,15 @@ Modified 2022-09-16
 
 void json_value_free(json_value value)
 {
+  #ifdef __GNUC__
+  #ifdef __clang__
   #pragma clang diagnostic push
   #pragma clang diagnostic ignored "-Wswitch-enum"
+  #else
+  #pragma GCC diagnostic push
+  #pragma GCC diagnostic ignored "-Wswitch-enum"
+  #endif
+  #endif
   switch (value.type) {
     case JSON_TYPE_SIZE:
     case JSON_TYPE_NULL:
@@ -49,14 +56,27 @@ void json_value_free(json_value value)
     default:
       assert(false);
   }
+  #ifdef __GNUC__
+  #ifdef __clang__
   #pragma clang diagnostic pop
+  #else
+  #pragma GCC diagnostic pop
+  #endif
+  #endif
 }
 
 void json_value_represent(json_value value)
 {
   assert(JSON_TYPE_HAS_MEANING(value.type));
+  #ifdef __GNUC__
+  #ifdef __clang__
   #pragma clang diagnostic push
   #pragma clang diagnostic ignored "-Wswitch"
+  #else
+  #pragma GCC diagnostic push
+  #pragma GCC diagnostic ignored "-Wswitch"
+  #endif
+  #endif
   switch (value.type) {
     case JSON_TYPE_NULL:
       wprintf(L"null");
@@ -101,7 +121,13 @@ void json_value_represent(json_value value)
       wprintf(L"}");
       break;
   }
+  #ifdef __GNUC__
+  #ifdef __clang__
   #pragma clang diagnostic pop
+  #else
+  #pragma GCC diagnostic pop
+  #endif
+  #endif
 }
 
 void json_pair_represent(json_pair pair)

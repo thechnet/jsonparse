@@ -8,6 +8,7 @@ Modified 2022-10-05
 
 /* Header-specific includes. */
 #include <stdio.h>
+#include <wchar.h>
 #include "common.h"
 #include "errors.h"
 
@@ -30,7 +31,7 @@ void json_parser_destroy(json_parser_state *ps);
 
 void json_parser_advance(json_parser_state *ps);
 void json_parse_whitespace(json_parser_state *ps);
-bool json_parse_character(json_parser_state *ps, wint_t wc);
+bool json_parse_character(json_parser_state *ps, wchar_t wc);
 bool json_parse_literal(json_parser_state *ps, wchar_t *literal);
 json_value json_parse_number(json_parser_state *ps);
 wchar_t *json_parse_string(json_parser_state *ps);
