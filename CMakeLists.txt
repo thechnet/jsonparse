@@ -12,6 +12,16 @@ if(NOT CMAKE_BUILD_TYPE)
   message(STATUS "Build type not specified, using Release.")
 endif()
 
+list(APPEND options "DEBUG_ENABLE_WATCHDOG|Enable Watchdog.|ON")
+list(APPEND options "PARSER_PRINT_PARSED_CHARACTERS|Print parsed characters.|OFF")
+foreach(option IN LISTS options)
+  string(REPLACE "|" ";" option_list ${option})
+  list(GET option_list 0 id)
+  list(GET option_list 1 desc)
+  list(GET option_list 2 val)
+  option(JSON_${id} "${desc}." ${val})
+endforeach()
+
 add_library(
   jsonparse
   STATIC
@@ -24,11 +34,18 @@ add_library(
 
 include_directories(../watchdog/build)
 
-file(READ src/structure_public.h FILE_STRUCTURE_PUBLIC_H)
-
-configure_file(src/jsonparse.h.in jsonparse.h)
-
 target_compile_options(
   jsonparse PRIVATE
   -O3 -Weverything -Werror=embedded-directive -Wno-unused-parameter -Wno-disabled-macro-expansion -Wno-gnu-zero-variadic-macro-arguments -Wno-declaration-after-statement -Wno-used-but-marked-unused -Wno-padded -Wno-keyword-macro
 )
+
+foreach(option IN LISTS options)
+  string(REPLACE "|" ";" option_list ${option})
+  list(GET option_list 0 id)
+  if("${JSON_${id}}" STREQUAL "ON")
+    add_definitions(-DJSON_${id})
+  endif()
+endforeach()
+
+file(READ src/structure_public.h FILE_STRUCTURE_PUBLIC_H)
+configure_file(src/jsonparse.h.in jsonparse.h)
