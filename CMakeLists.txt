@@ -7,6 +7,11 @@ project(
   LANGUAGES C
 )
 
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE "Release")
+  message(STATUS "Build type not specified, using Release.")
+endif()
+
 add_library(
   jsonparse
   STATIC
